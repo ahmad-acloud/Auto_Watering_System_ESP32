@@ -17,11 +17,11 @@ String datetime;
 
 const int DHTPIN = 33; // Pin where is connected the DHT11
 const int DHTTYPE = DHT11; // Type of DHT
-const int trigPin = 16; // Triger pin of the HC-SR04
-const int echoPin = 17; // Echo pin of the HC-SR04  
+const int trigPin = 16; // Triger pin
+const int echoPin = 17; // Echo pin  
 const int sig = 5;
-const int AirValue = 1200;   //replace the value from calibration in air
-const int WaterValue = 450;  //replace the value from calibration in water
+const int AirValue = 1200;   //calibration in dry soil
+const int WaterValue = 450;  // calibration in water
 const float radius = 6;            //radius of water bucket 
 const float height= 12;            // height of water bucket  
 const float Pi = 3.14159; 
@@ -52,10 +52,10 @@ String formattedDate;
 
 
 
-// The name of the device. This MUST match up with the name defined in the AWS console
+// The name of the device
 #define DEVICE_NAME "my-esp32-device"
 
-// The MQTTT endpoint for the device (unique for each AWS account but shared amongst devices within the account)
+// The MQTTT endpoint for the device 
 #define AWS_IOT_ENDPOINT "XXXXXXXXXXXXXXXXXXXXXXXXXXX.amazonaws.com"
 
 // The MQTT topic that this device should publish to
@@ -117,7 +117,7 @@ void connectToAWS()
     return;
   }
 
-  // If we land here, we have successfully connected to AWS!
+  // Successfully connected to AWS!
   // And we can subscribe to topics and send messages.
   Serial.println("Connected!");
 }
@@ -129,14 +129,14 @@ float getVolume() {
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
   duration = (pulseIn(echoPin, HIGH)); 
-  distance = float(duration/29/2);         // output values in cm
+  distance = float(duration/29/2);         // Output values in cm
 
-  volume = Pi* sq(radius)*(height-distance);
+  volume = Pi* sq(radius)*(height-distance);   // Volume is in cm^3
   
    Serial.println(volume);
 }
 
-// Get the humdidty and temp reading  
+// Get the humidity and temp reading  
 
 float getHT() {
   T = dht.readTemperature(); // return temperature in °C
@@ -144,7 +144,7 @@ float getHT() {
      Serial.println(T);
      Serial.println(H);
  //check whether reading was successful or not
- if(T == NAN || H == NAN){ // NAN means no available data
+ if(T == NAN || H == NAN){ 
     Serial.println("Reading failed.");
   }
 
@@ -153,17 +153,17 @@ float getHT() {
 // Get the moisture sensor value 
 int getMoistureValue() {
   
-soilMoistureValue = analogRead(32);  //Mention where the analog pin is connected on arduino
+soilMoistureValue = analogRead(32);  // Analoge pin is connected on ESP32
 Serial.println(soilMoistureValue);
 
 soilmoisturepercent = map(soilMoistureValue, AirValue, WaterValue, 0, 100);
-if(soilmoisturepercent < 60)  // change this at what level the pump turns on
+if(soilmoisturepercent < 60)  // Lower threshold/dry soil/pump is on
 {
   Serial.println("Nearly dry, Pump turning on");
-  digitalWrite(sig,HIGH);  // Low percent high signal to relay to turn on pump
+  digitalWrite(sig,HIGH);  // 
   pumpState = 1;
 }
-else if (soilmoisturepercent > 80) // max water level should be
+else if (soilmoisturepercent > 80) //  Upper threshold/wet soil/pump is off
 {
   Serial.println("Nearly wet, Pump turning off");
    digitalWrite(sig,LOW); 
@@ -214,7 +214,7 @@ void setup() {
   connectToWiFi();  
   connectToAWS();
 
-  // Initialize a NTPClient to get time
+  // Initialize a NTPClient to get current time
   timeClient.begin();
   timeClient.setTimeOffset(3600);
 
