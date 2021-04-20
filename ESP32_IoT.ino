@@ -15,15 +15,15 @@
 String datetime;
 // Initializing sesnors pins 
 
-const int DHTPIN = 33; // Pin where is connected the DHT11
+const int DHTPIN = 33; // Pin connected the DHT11 sensor 
 const int DHTTYPE = DHT11; // Type of DHT
 const int trigPin = 16; // Triger pin
 const int echoPin = 17; // Echo pin  
 const int sig = 5;
-const int AirValue = 1200;   //calibration in dry soil
-const int WaterValue = 450;  // calibration in water
-const float radius = 6;            //radius of water bucket 
-const float height= 12;            // height of water bucket  
+const int AirValue = 1200;   //Calibration in dry soil
+const int WaterValue = 450;  // Calibration in water
+const float radius = 6;            //Radius of water bucket 
+const float height= 12;            // Height of water bucket  
 const float Pi = 3.14159; 
 // Initializing functions varibles for ultrasound  & soil mositure sensor  
 long duration;
@@ -34,15 +34,15 @@ int soilMoistureValue;
 
 int soilmoisturepercent;
 
-float T;
-float H;
+float T;  // Temp
+float H;  // Humidity 
 int pumpState; 
-unsigned long ts;
+
 // Wifi credentials
 const char *WIFI_SSID = "Your WIFI SSID";
 const char *WIFI_PASSWORD = "WIFI-PASSWORD";
 
-// Define NTP Client to get time
+// Define NTP Client to get current time
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
