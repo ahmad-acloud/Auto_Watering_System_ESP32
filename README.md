@@ -9,3 +9,8 @@ Bullet points :
 - Using an IoT rule,  a lambda function excutes and recieve the json payload (data) and fed into a data stream off Kinesis data firehose 
 - Simultaneously, data is dumped and stored into an S3 bucket which to be exported and analyzed using Amazon Quicksight platform   
  
+- Part #1 - ESP32 IoT  Automatic Irrigation System Presentation
+https://youtu.be/u4eIyrAqxdQ
+
+- Part #2 - ESP32 Automatic Irrigation System Quick Demo.
+https://youtu.be/yoQ9dS1zXUU
