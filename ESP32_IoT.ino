@@ -157,7 +157,7 @@ soilMoistureValue = analogRead(32);  // Analoge pin is connected on ESP32
 Serial.println(soilMoistureValue);
 
 soilmoisturepercent = map(soilMoistureValue, AirValue, WaterValue, 0, 100);
-if(soilmoisturepercent < 60)  // Lower threshold/dry soil/pump is on
+if(soilmoisturepercent < 50)  // Lower threshold/dry soil/pump is on
 {
   Serial.println("Nearly dry, Pump turning on");
   digitalWrite(sig,HIGH);  // 
@@ -188,7 +188,7 @@ void sendJsonToAWS()
    
   doc["volume"] = volume;           //Water volume in bucket 
   doc["moisturePercent"] = soilmoisturepercent;     // Mositure % in soil 
-  doc["pumpState"] = pumpState;          // state of water pump
+  doc["pumpState"] = pumpState;          // State of water pump
   //reportedObj["wifi_strength"] = WiFi.RSSI();
   
  
@@ -235,5 +235,5 @@ void loop() {
   sendJsonToAWS();
   
   client.loop();
-  delay(1000);
+  delay(5000);
 }
